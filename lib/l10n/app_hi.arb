@@ -1,0 +1,82 @@
+{
+  "@@locale": "hi",
+
+  "appName": "Alive",
+  "selectLanguage": "भाषा चुनें",
+  "english": "English",
+  "hindi": "हिंदी",
+
+  "phoneNumber": "फ़ोन नंबर",
+  "sendOtp": "OTP भेजें",
+  "enterOtp": "OTP दर्ज करें",
+  "verifyOtp": "OTP सत्यापित करें",
+  "otpSent": "OTP सफलतापूर्वक भेजा गया",
+  "invalidOtp": "अमान्य OTP। कृपया पुनः प्रयास करें।",
+  "changeNumber": "नंबर बदलें",
+
+  "profileDetails": "प्रोफ़ाइल विवरण",
+  "name": "नाम",
+  "dateOfBirth": "जन्म तिथि",
+  "pincode": "पिनकोड",
+  "district": "जिला",
+  "state": "राज्य",
+  "country": "देश",
+  "saveProfile": "प्रोफ़ाइल सहेजें",
+
+  "emergencyContact": "आपातकालीन संपर्क विवरण",
+  "contactName": "संपर्क का नाम",
+  "relationship": "संबंध",
+  "contactNumber": "संपर्क नंबर",
+  "sendRequest": "अनुरोध भेजें",
+
+  "requestSentWaiting": "अनुरोध भेजा गया – स्वीकृति की प्रतीक्षा है",
+  "requestRejected": "अनुरोध अस्वीकृत – संपर्क पुनः दर्ज करें",
+  "changeContact": "संपर्क बदलें",
+
+  "alive": "जीवित",
+  "statusActive": "स्थिति: सक्रिय",
+  "timeRemaining": "शेष समय",
+  "alivePressed": "✓ आप जीवित हैं!",
+  "aliveButtonHint": "हर 48 घंटे में दबाएं कि आप सुरक्षित हैं",
+
+  "invitationFrom": "सुरक्षा निगरानी अनुरोध",
+  "accept": "स्वीकार करें",
+  "deny": "अस्वीकार करें",
+  "viewRequest": "अनुरोध देखें",
+
+  "receiverDashboard": "आप किसी की निगरानी कर रहे हैं",
+  "alertReceived": "⚠️ अलर्ट: आपके संपर्क ने 48 घंटों में चेक-इन नहीं किया!",
+  "monitoringActive": "निगरानी सक्रिय",
+  "lastCheckedIn": "अंतिम बार चेक-इन",
+  "noActiveConnections": "कोई सक्रिय निगरानी कनेक्शन नहीं",
+  "noActiveConnectionsHint": "जब कोई आपको अपना आपातकालीन संपर्क जोड़ेगा तो आपको सूचना मिलेगी।",
+  "pendingRequest": "आपके पास एक लंबित अनुरोध है",
+  "wantsToMonitor": "चाहता है कि आप उनकी निगरानी करें",
+  "minutesAgo": "मिनट पहले",
+  "hoursAgo": "घंटे पहले",
+  "daysAgo": "दिन पहले",
+  "never": "कभी नहीं",
+  "safetyAlert": "सुरक्षा अलर्ट",
+  "safetyAlertBody": "आपके निगरानी संपर्क ने 48 घंटों में चेक-इन नहीं किया। कृपया उनसे संपर्क करने का प्रयास करें।",
+  "ok": "ठीक है",
+
+  "monitoredBy": "निगरानीकर्ता",
+  "waitingFor": "प्रतीक्षा में",
+  "toAccept": "स्वीकार करने के लिए",
+
+  "loading": "लोड हो रहा है...",
+  "error": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
+  "userNotFound": "उस फ़ोन नंबर से कोई उपयोगकर्ता नहीं मिला। उन्हें पहले पंजीकरण करना होगा।",
+  "cannotAddSelf": "आप स्वयं को आपातकालीन संपर्क के रूप में नहीं जोड़ सकते।",
+  "fieldRequired": "आवश्यक है",
+  "includeCountryCode": "देश कोड शामिल करें (जैसे +91)",
+  "somethingWentWrong": "कुछ गलत हो गया",
+
+  "emergencyContactHint": "अगर आप 48 घंटों में ALIVE नहीं दबाते हैं तो आपके आपातकालीन संपर्क को अलर्ट मिलेगा। उनके पास ऐप पहले से इंस्टॉल होना चाहिए।",
+  "wantsYouAsContact": "चाहता है कि आप उनके आपातकालीन संपर्क बनें। अगर वे 48 घंटों में ALIVE नहीं दबाते हैं तो आपको अलर्ट मिलेगा।",
+  "alertSentToContact": "⚠️ आपके आपातकालीन संपर्क को अलर्ट भेजा गया है!",
+
+  "dobHint": "DD/MM/YYYY",
+  "relationshipHint": "जैसे पिता, पति/पत्नी, दोस्त",
+  "phoneHint": "+91XXXXXXXXXX"
+}

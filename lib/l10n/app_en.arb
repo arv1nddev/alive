@@ -1,0 +1,82 @@
+{
+  "@@locale": "en",
+
+  "appName": "Alive",
+  "selectLanguage": "Select Language",
+  "english": "English",
+  "hindi": "Hindi",
+
+  "phoneNumber": "Phone Number",
+  "sendOtp": "Send OTP",
+  "enterOtp": "Enter OTP",
+  "verifyOtp": "Verify OTP",
+  "otpSent": "OTP sent successfully",
+  "invalidOtp": "Invalid OTP. Please try again.",
+  "changeNumber": "Change number",
+
+  "profileDetails": "Profile Details",
+  "name": "Name",
+  "dateOfBirth": "Date of Birth",
+  "pincode": "Pincode",
+  "district": "District",
+  "state": "State",
+  "country": "Country",
+  "saveProfile": "Save Profile",
+
+  "emergencyContact": "Emergency Contact Details",
+  "contactName": "Contact Name",
+  "relationship": "Relationship",
+  "contactNumber": "Contact Number",
+  "sendRequest": "Send Request",
+
+  "requestSentWaiting": "Request Sent – Waiting for Acceptance",
+  "requestRejected": "Request Rejected – Enter Contact Again",
+  "changeContact": "Change Contact",
+
+  "alive": "ALIVE",
+  "statusActive": "Status: ACTIVE",
+  "timeRemaining": "Time Remaining",
+  "alivePressed": "✓ You're marked as Alive!",
+  "aliveButtonHint": "Press every 48 hours to confirm you are safe",
+
+  "invitationFrom": "Safety monitoring request from",
+  "accept": "Accept",
+  "deny": "Deny",
+  "viewRequest": "View Request",
+
+  "receiverDashboard": "You are monitoring someone",
+  "alertReceived": "⚠️ ALERT: Your contact has not checked in for 48 hours!",
+  "monitoringActive": "Monitoring Active",
+  "lastCheckedIn": "Last checked in",
+  "noActiveConnections": "No active monitoring connections",
+  "noActiveConnectionsHint": "You will receive a notification when someone adds you as their emergency contact.",
+  "pendingRequest": "You have a pending request",
+  "wantsToMonitor": "wants you to monitor them",
+  "minutesAgo": "minutes ago",
+  "hoursAgo": "hours ago",
+  "daysAgo": "days ago",
+  "never": "Never",
+  "safetyAlert": "Safety Alert",
+  "safetyAlertBody": "Your monitored contact has not checked in for 48 hours. Please try to reach them.",
+  "ok": "OK",
+
+  "monitoredBy": "Monitored by",
+  "waitingFor": "Waiting for",
+  "toAccept": "to accept",
+
+  "loading": "Loading...",
+  "error": "Something went wrong. Please try again.",
+  "userNotFound": "No user found with that phone number. They must register first.",
+  "cannotAddSelf": "You cannot add yourself as an emergency contact.",
+  "fieldRequired": "Required",
+  "includeCountryCode": "Include country code (e.g. +91)",
+  "somethingWentWrong": "Something went wrong",
+
+  "emergencyContactHint": "Your emergency contact will receive an alert if you don't press ALIVE within 48 hours. They must already have the app installed.",
+  "wantsYouAsContact": "wants you to be their emergency contact. You will receive an alert if they don't press ALIVE within 48 hours.",
+  "alertSentToContact": "⚠️ Alert has been sent to your emergency contact!",
+
+  "dobHint": "DD/MM/YYYY",
+  "relationshipHint": "e.g. Father, Spouse, Friend",
+  "phoneHint": "+91XXXXXXXXXX"
+}
