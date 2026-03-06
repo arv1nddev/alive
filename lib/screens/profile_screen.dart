@@ -19,6 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _districtController = TextEditingController();
   final _stateController = TextEditingController();
   final _countryController = TextEditingController();
+  final _phoneController = TextEditingController();
   bool _loading = false;
 
   @override
@@ -29,6 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _districtController.dispose();
     _stateController.dispose();
     _countryController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
@@ -58,6 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         district: _districtController.text.trim(),
         state: _stateController.text.trim(),
         country: _countryController.text.trim(),
+        phone: _phoneController.text.trim(),
         language: language,
       );
       if (mounted) {
@@ -116,6 +119,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: 16),
               _buildField(l10n.country, _countryController,
                   icon: Icons.public_outlined),
+              const SizedBox(height: 16),
+              _buildField(
+                'Phone Number',
+                _phoneController,
+                icon: Icons.phone,
+                hint: '+91XXXXXXXXXX',
+                keyboard: TextInputType.phone,
+              ),
               const SizedBox(height: 32),
               _loading
                   ? const Center(

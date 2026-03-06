@@ -122,47 +122,53 @@ abstract class AppLocalizations {
   /// **'Hindi'**
   String get hindi;
 
-  /// No description provided for @phoneNumber.
+  /// No description provided for @email.
   ///
   /// In en, this message translates to:
-  /// **'Phone Number'**
-  String get phoneNumber;
+  /// **'Email'**
+  String get email;
 
-  /// No description provided for @sendOtp.
+  /// No description provided for @password.
   ///
   /// In en, this message translates to:
-  /// **'Send OTP'**
-  String get sendOtp;
+  /// **'Password'**
+  String get password;
 
-  /// No description provided for @enterOtp.
+  /// No description provided for @login.
   ///
   /// In en, this message translates to:
-  /// **'Enter OTP'**
-  String get enterOtp;
+  /// **'Login'**
+  String get login;
 
-  /// No description provided for @verifyOtp.
+  /// No description provided for @register.
   ///
   /// In en, this message translates to:
-  /// **'Verify OTP'**
-  String get verifyOtp;
+  /// **'Register'**
+  String get register;
 
-  /// No description provided for @otpSent.
+  /// No description provided for @noAccount.
   ///
   /// In en, this message translates to:
-  /// **'OTP sent successfully'**
-  String get otpSent;
+  /// **'Don\'t have an account? Register'**
+  String get noAccount;
 
-  /// No description provided for @invalidOtp.
+  /// No description provided for @alreadyAccount.
   ///
   /// In en, this message translates to:
-  /// **'Invalid OTP. Please try again.'**
-  String get invalidOtp;
+  /// **'Already have an account? Login'**
+  String get alreadyAccount;
 
-  /// No description provided for @changeNumber.
+  /// No description provided for @forgotPassword.
   ///
   /// In en, this message translates to:
-  /// **'Change number'**
-  String get changeNumber;
+  /// **'Forgot password?'**
+  String get forgotPassword;
+
+  /// No description provided for @passwordResetSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset email sent!'**
+  String get passwordResetSent;
 
   /// No description provided for @profileDetails.
   ///
@@ -206,6 +212,12 @@ abstract class AppLocalizations {
   /// **'Country'**
   String get country;
 
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
   /// No description provided for @saveProfile.
   ///
   /// In en, this message translates to:
@@ -230,11 +242,11 @@ abstract class AppLocalizations {
   /// **'Relationship'**
   String get relationship;
 
-  /// No description provided for @contactNumber.
+  /// No description provided for @contactEmail.
   ///
   /// In en, this message translates to:
-  /// **'Contact Number'**
-  String get contactNumber;
+  /// **'Contact Email'**
+  String get contactEmail;
 
   /// No description provided for @sendRequest.
   ///

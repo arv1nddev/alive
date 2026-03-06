@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/firebase_service.dart';
-import 'receiver_dashboard.dart';
+import 'startup_screen.dart';
 import 'package:alive/generated/app_localizations.dart';
 
 class ReceiverInvitationScreen extends StatefulWidget {
@@ -43,7 +43,7 @@ class _ReceiverInvitationScreenState
     await FirebaseService.acceptInvitation(widget.senderId);
     if (mounted) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const ReceiverDashboard()),
+        MaterialPageRoute(builder: (_) => const StartupScreen()),
         (_) => false,
       );
     }
@@ -54,7 +54,7 @@ class _ReceiverInvitationScreenState
     await FirebaseService.denyInvitation(widget.senderId);
     if (mounted) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const ReceiverDashboard()),
+        MaterialPageRoute(builder: (_) => const StartupScreen()),
         (_) => false,
       );
     }

@@ -21,25 +21,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hindi => 'Hindi';
 
   @override
-  String get phoneNumber => 'Phone Number';
+  String get email => 'Email';
 
   @override
-  String get sendOtp => 'Send OTP';
+  String get password => 'Password';
 
   @override
-  String get enterOtp => 'Enter OTP';
+  String get login => 'Login';
 
   @override
-  String get verifyOtp => 'Verify OTP';
+  String get register => 'Register';
 
   @override
-  String get otpSent => 'OTP sent successfully';
+  String get noAccount => 'Don\'t have an account? Register';
 
   @override
-  String get invalidOtp => 'Invalid OTP. Please try again.';
+  String get alreadyAccount => 'Already have an account? Login';
 
   @override
-  String get changeNumber => 'Change number';
+  String get forgotPassword => 'Forgot password?';
+
+  @override
+  String get passwordResetSent => 'Password reset email sent!';
 
   @override
   String get profileDetails => 'Profile Details';
@@ -63,6 +66,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get country => 'Country';
 
   @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
   String get saveProfile => 'Save Profile';
 
   @override
@@ -75,7 +81,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get relationship => 'Relationship';
 
   @override
-  String get contactNumber => 'Contact Number';
+  String get contactEmail => 'Contact Email';
 
   @override
   String get sendRequest => 'Send Request';

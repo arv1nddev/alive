@@ -2,18 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:app_links/app_links.dart';
 import 'screens/startup_screen.dart';
 import 'services/notification_service.dart';
+import 'services/firebase_service.dart';
 import 'package:alive/generated/app_localizations.dart';
+
+// Need a navigator key to navigate without context
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Firebase.apps.isEmpty) { 
     await Firebase.initializeApp(); 
   }
   await NotificationService.initialize();
+  _handleIncomingMagicLink();
   runApp(const AliveApp());
 }
+
+  Future<void> _handleIncomingMagicLink() async {
+    final appLinks = AppLinks();
+
+    try {
+      // App opened from cold start
+      final initialUri = await appLinks.getInitialLink();
+      if (initialUri != null) {
+        await _processMagicLink(initialUri.toString());
+      }
+    } catch (e) {
+      debugPrint('Initial link error: $e');
+    }
+
+    // App already running
+    appLinks.uriLinkStream.listen((Uri uri) {
+      _processMagicLink(uri.toString());
+    });
+  }
+
+  Future<void> _processMagicLink(String link) async {
+    if (!FirebaseService.isValidMagicLink(link)) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final email = prefs.getString('magic_link_email');
+    if (email == null) return;
+
+    try {
+      await FirebaseService.signInWithMagicLink(
+          email: email, emailLink: link);
+      await prefs.remove('magic_link_email');
+
+      navigatorKey.currentState?.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const StartupScreen()),
+        (_) => false,
+      );
+    } catch (e) {
+      debugPrint('Magic link sign in failed: $e');
+    }
+  }
 
 class AliveApp extends StatefulWidget {
   const AliveApp({super.key});
@@ -51,6 +96,7 @@ class _AliveAppState extends State<AliveApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey, 
       title: 'Alive',
       debugShowCheckedModeBanner: false,
       locale: _locale,

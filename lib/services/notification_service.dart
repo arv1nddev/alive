@@ -26,6 +26,7 @@ class NotificationService {
     );
 
     // Get token
+    await _messaging.deleteToken();
     _fcmToken = await _messaging.getToken();
     debugPrint('FCM Token: $_fcmToken');
 

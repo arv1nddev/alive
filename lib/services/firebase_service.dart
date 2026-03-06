@@ -6,47 +6,45 @@ import 'package:flutter/widgets.dart';
 class FirebaseService {
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
   static final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  static FirebaseFirestore get db => _db;
   // ── Auth ──────────────────────────────────────────────────────────────────
 
   static String? get currentUid => _auth.currentUser?.uid;
-  static String? get currentPhone => _auth.currentUser?.phoneNumber;
 
-  static Future<void> verifyPhone({
-    required String phoneNumber,
-    required Function(PhoneAuthCredential) onAutoVerified,
-    required Function(String, int?) onCodeSent,
-    required Function(FirebaseAuthException) onError,
-  }) async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: onAutoVerified,
-      verificationFailed: onError,
-      codeSent: (verificationId, resendToken) =>
-          onCodeSent(verificationId, resendToken),
-      codeAutoRetrievalTimeout: (_) {},
+  static Future<void> sendMagicLink(String email) async {
+    final actionCodeSettings = ActionCodeSettings(
+      url: 'https://alive-app-b604e.firebaseapp.com/login',
+      handleCodeInApp: true,
+      androidPackageName: 'com.example.alive',
+      androidInstallApp: true,
+      androidMinimumVersion: '21',
+    );
+    debugPrint('Sending to: "$email"');
+    await _auth.sendSignInLinkToEmail(
+      email: email,
+      actionCodeSettings: actionCodeSettings,
     );
   }
 
-  static Future<UserCredential> signInWithCredential(
-      PhoneAuthCredential credential) async {
-    return await _auth.signInWithCredential(credential);
+  static Future<UserCredential> signInWithMagicLink({
+    required String email,
+    required String emailLink,
+  }) async {
+    return await _auth.signInWithEmailLink(
+        email: email, emailLink: emailLink);
   }
 
-  static Future<UserCredential> signInWithOtp(
-      String verificationId, String smsCode) async {
-    final credential = PhoneAuthProvider.credential(
-        verificationId: verificationId, smsCode: smsCode);
-    return await _auth.signInWithCredential(credential);
+  static bool isValidMagicLink(String link) {
+    return _auth.isSignInWithEmailLink(link);
   }
 
   // ── User Profile ─────────────────────────────────────────────────────────
 
   static Future<bool> userProfileExists() async {
-    if (currentUid == null) return false;
-    final doc = await _db.collection('users').doc(currentUid).get();
-    return doc.exists;
-  }
+      if (currentUid == null) return false;
+      final doc = await _db.collection('users').doc(currentUid).get();
+      return doc.exists;
+    }
 
   static Future<void> saveUserProfile({
     required String name,
@@ -55,12 +53,11 @@ class FirebaseService {
     required String district,
     required String state,
     required String country,
+    required String phone,    // kept for details only
     required String language,
   }) async {
-    debugPrint("fetching fcm token");
     final fcmToken = await FirebaseMessaging.instance.getToken();
-    debugPrint("fetched fcm token");
-    debugPrint("accessing db ");
+    final email = _auth.currentUser?.email ?? '';  // ← get email from auth
     await _db.collection('users').doc(currentUid).set({
       'name': name,
       'dob': dob,
@@ -68,12 +65,12 @@ class FirebaseService {
       'district': district,
       'state': state,
       'country': country,
-      'phone': currentPhone ?? '',
+      'phone': phone,
+      'email': email,
       'language': language,
       'fcmToken': fcmToken ?? '',
       'createdAt': FieldValue.serverTimestamp(),
     });
-    debugPrint("saved");
   }
 
   static Future<void> updateFcmToken(String token) async {
@@ -90,17 +87,8 @@ class FirebaseService {
 
   static Future<bool> connectionExists() async {
     if (currentUid == null) return false;
-    // Check if user is sender
-    final senderDoc =
-        await _db.collection('connections').doc(currentUid).get();
-    if (senderDoc.exists) return true;
-    // Check if user is receiver
-    final receiverQuery = await _db
-        .collection('connections')
-        .where('receiverId', isEqualTo: currentUid)
-        .limit(1)
-        .get();
-    return receiverQuery.docs.isNotEmpty;
+    final doc = await _db.collection('connections').doc(currentUid).get();
+    return doc.exists;
   }
 
   static Stream<DocumentSnapshot<Map<String, dynamic>>> watchConnection(
@@ -116,15 +104,22 @@ class FirebaseService {
         .where('status', whereIn: ['PENDING', 'ACTIVE']).snapshots();
   }
 
-  /// Returns the uid of a user given their phone number, or null if not found.
-  static Future<String?> findUserByPhone(String phone) async {
-    final query = await _db
-        .collection('users')
-        .where('phone', isEqualTo: phone)
-        .limit(1)
-        .get();
-    if (query.docs.isEmpty) return null;
-    return query.docs.first.id;
+  static Future<String?> findUserByEmail(String email) async {
+    // Firebase Auth lets us look up uid by email directly
+    try {
+      // final methods = await _auth.fetchSignInMethodsForEmail(email);
+      // if (methods.isEmpty) return null;
+      // Get uid from users collection by email
+      final query = await _db
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .limit(1)
+          .get();
+      if (query.docs.isEmpty) return null;
+      return query.docs.first.id;
+    } catch (e) {
+      return null;
+    }
   }
 
   /// Sender creates a connection and triggers FCM invite via Cloud Function
@@ -132,7 +127,7 @@ class FirebaseService {
     required String receiverId,
     required String contactName,
     required String relationship,
-    required String contactPhone,
+    required String contactEmail,
   }) async {
     final senderId = currentUid!;
     await _db.collection('connections').doc(senderId).set({
@@ -140,7 +135,7 @@ class FirebaseService {
       'receiverId': receiverId,
       'contactName': contactName,
       'relationship': relationship,
-      'contactPhone': contactPhone,
+      'contactEmail': contactEmail,
       'status': 'PENDING',
       'lastAliveTimestamp': null,
       'alertSent': false,
@@ -153,14 +148,14 @@ class FirebaseService {
     required String receiverId,
     required String contactName,
     required String relationship,
-    required String contactPhone,
+    required String contactEmail,
   }) async {
     final senderId = currentUid!;
     await _db.collection('connections').doc(senderId).update({
       'receiverId': receiverId,
       'contactName': contactName,
       'relationship': relationship,
-      'contactPhone': contactPhone,
+      'contactEmail': contactEmail,
       'status': 'PENDING',
       'lastAliveTimestamp': null,
       'alertSent': false,
@@ -223,5 +218,17 @@ class FirebaseService {
         .get();
     if (query.docs.isEmpty) return null;
     return query.docs.first.id;
+  }
+
+  static Future<DocumentSnapshot<Map<String, dynamic>>?> getPendingInvitation() async {
+    if (currentUid == null) return null;
+    final query = await _db
+        .collection('connections')
+        .where('receiverId', isEqualTo: currentUid)
+        .where('status', isEqualTo: 'PENDING')
+        .limit(1)
+        .get();
+    if (query.docs.isEmpty) return null;
+    return query.docs.first;
   }
 }

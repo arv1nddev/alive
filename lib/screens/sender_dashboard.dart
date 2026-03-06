@@ -23,8 +23,31 @@ class _SenderDashboardState extends State<SenderDashboard> {
   void initState() {
     super.initState();
     _setupNotificationHandling();
+    _checkPendingInvitations(); 
   }
 
+  @override
+  void dispose() {
+    _countdownTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _checkPendingInvitations() async {
+    // Small delay to let the screen render first
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (!mounted) return;
+    
+    final pendingInvite = await FirebaseService.getPendingInvitation();
+    if (pendingInvite != null && mounted) {
+      final senderId = pendingInvite.data()?['senderId'] as String;
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ReceiverInvitationScreen(senderId: senderId),
+        ),
+      );
+    }
+  }
+  
   void _setupNotificationHandling() {
     NotificationService.onNotificationTap = (data) {
       final type = data['type'];
@@ -85,61 +108,6 @@ class _SenderDashboardState extends State<SenderDashboard> {
     return Colors.red;
   }
 
-  @override
-  void dispose() {
-    _countdownTimer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final uid = FirebaseService.currentUid!;
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('ALIVE',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-                color: Color(0xFF3D6EEA))),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
-      body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        stream: FirebaseService.watchConnection(uid),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-                child: CircularProgressIndicator(color: Color(0xFF3D6EEA)));
-          }
-
-          final data = snapshot.data?.data();
-          if (data == null) {
-            return Center(child: Text(l10n.error));
-          }
-
-          final status = data['status'] as String? ?? 'PENDING';
-
-          if (status == 'PENDING') {
-            return _buildPendingView(l10n, data);
-          } else if (status == 'REJECTED') {
-            return _buildRejectedView(l10n);
-          } else if (status == 'ACTIVE') {
-            final lastAlive = data['lastAliveTimestamp'] as Timestamp?;
-            // Start/update timer when data changes
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _startCountdown(lastAlive);
-            });
-            return _buildActiveView(l10n, data);
-          }
-
-          return const SizedBox.shrink();
-        },
-      ),
-    );
-  }
 
   Widget _buildPendingView(dynamic l10n, Map<String, dynamic> data) {
     final contactName = data['contactName'] ?? '';
@@ -346,6 +314,56 @@ class _SenderDashboardState extends State<SenderDashboard> {
             ),
           ],
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final uid = FirebaseService.currentUid!;
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('ALIVE',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+                color: Color(0xFF3D6EEA))),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
+      body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: FirebaseService.watchConnection(uid),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+                child: CircularProgressIndicator(color: Color(0xFF3D6EEA)));
+          }
+
+          final data = snapshot.data?.data();
+          if (data == null) {
+            return Center(child: Text(l10n.error));
+          }
+
+          final status = data['status'] as String? ?? 'PENDING';
+
+          if (status == 'PENDING') {
+            return _buildPendingView(l10n, data);
+          } else if (status == 'REJECTED') {
+            return _buildRejectedView(l10n);
+          } else if (status == 'ACTIVE') {
+            final lastAlive = data['lastAliveTimestamp'] as Timestamp?;
+            // Start/update timer when data changes
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _startCountdown(lastAlive);
+            });
+            return _buildActiveView(l10n, data);
+          }
+
+          return const SizedBox.shrink();
+        },
       ),
     );
   }

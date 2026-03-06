@@ -21,25 +21,28 @@ class AppLocalizationsHi extends AppLocalizations {
   String get hindi => 'हिंदी';
 
   @override
-  String get phoneNumber => 'फ़ोन नंबर';
+  String get email => 'ईमेल';
 
   @override
-  String get sendOtp => 'OTP भेजें';
+  String get password => 'पासवर्ड';
 
   @override
-  String get enterOtp => 'OTP दर्ज करें';
+  String get login => 'लॉगिन';
 
   @override
-  String get verifyOtp => 'OTP सत्यापित करें';
+  String get register => 'पंजीकरण करें';
 
   @override
-  String get otpSent => 'OTP सफलतापूर्वक भेजा गया';
+  String get noAccount => 'खाता नहीं है? पंजीकरण करें';
 
   @override
-  String get invalidOtp => 'अमान्य OTP। कृपया पुनः प्रयास करें।';
+  String get alreadyAccount => 'पहले से खाता है? लॉगिन करें';
 
   @override
-  String get changeNumber => 'नंबर बदलें';
+  String get forgotPassword => 'पासवर्ड भूल गए?';
+
+  @override
+  String get passwordResetSent => 'पासवर्ड रीसेट ईमेल भेजा गया!';
 
   @override
   String get profileDetails => 'प्रोफ़ाइल विवरण';
@@ -63,6 +66,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get country => 'देश';
 
   @override
+  String get phoneNumber => 'फ़ोन नंबर';
+
+  @override
   String get saveProfile => 'प्रोफ़ाइल सहेजें';
 
   @override
@@ -75,7 +81,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get relationship => 'संबंध';
 
   @override
-  String get contactNumber => 'संपर्क नंबर';
+  String get contactEmail => 'संपर्क ईमेल';
 
   @override
   String get sendRequest => 'अनुरोध भेजें';

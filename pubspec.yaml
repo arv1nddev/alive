@@ -25,6 +25,8 @@ dependencies:
 
   # Utils
   cupertino_icons: ^1.0.8
+  http: ^1.6.0
+  app_links: ^6.0.0
 
 dev_dependencies:
   flutter_test:
